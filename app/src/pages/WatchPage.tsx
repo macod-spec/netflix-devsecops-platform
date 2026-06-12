@@ -72,13 +72,13 @@ export function Component() {
 
     player.on("timeupdate", () => {
       setPlayerState((draft) => {
-        return { ...draft, playedSeconds: player.currentTime() };
+        return { ...draft, playedSeconds: player.currentTime() ?? 0 };
       });
     });
 
     player.one("durationchange", () => {
       setPlayerInitialized(true);
-      setPlayerState((draft) => ({ ...draft, duration: player.duration() }));
+      setPlayerState((draft) => ({ ...draft, duration: player.duration() ?? 0 }));
     });
 
     playerRef.current = player;
@@ -88,10 +88,10 @@ export function Component() {
     });
   };
 
-  const handleVolumeChange: SliderUnstyledOwnProps["onChange"] = (_, value) => {
-    playerRef.current?.volume((value as number) / 100);
+  const handleVolumeChange: SliderUnstyledOwnProps["onChange"] = (_event, value: number | number[]) => {
+    playerRef.current?.volume((Array.isArray(value) ? value[0] : value) / 100);
     setPlayerState((draft) => {
-      return { ...draft, volume: (value as number) / 100 };
+      return { ...draft, volume: (Array.isArray(value) ? value[0] : value) / 100 };
     });
   };
 
