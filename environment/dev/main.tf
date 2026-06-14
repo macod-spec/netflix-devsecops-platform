@@ -45,3 +45,12 @@ module "networking" {
   private_endpoint_subnet_prefix = var.private_endpoint_subnet_prefix
   tags                           = local.common_tags
 }
+module "acr" {
+  source = "../../Modules/ACR"
+
+  acr_name            = var.acr_name
+  resource_group_name = module.resource_group.name
+  location            = var.location
+  sku                 = "Basic"
+  tags                = local.common_tags
+}

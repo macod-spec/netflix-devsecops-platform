@@ -37,3 +37,8 @@ variable "private_endpoint_subnet_prefix" {
   description = "CIDR block for the private endpoint subnet."
   type        = string
 }
+
+variable "acr_name" {
+  description = "Name of the dev Azure Container Registry."
+  type        = string
+}
