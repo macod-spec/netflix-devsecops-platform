@@ -1,0 +1,76 @@
+name: Deploy Dev to AKS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  ACR_LOGIN_SERVER: acrnetflixdevmac01.azurecr.io
+  API_IMAGE_NAME: netflix-api
+  WEB_IMAGE_NAME: netflix-web
+  NAMESPACE: netflix-dev
+
+jobs:
+  build-and-deploy:
+    name: Build, Push and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Login to Azure Container Registry
+        run: az acr login --name ${{ secrets.ACR_NAME }}
+
+      - name: Build and push API image
+        run: |
+          docker build \
+            -f app/Dockerfile \
+            -t $ACR_LOGIN_SERVER/$API_IMAGE_NAME:dev \
+            app
+
+          docker push $ACR_LOGIN_SERVER/$API_IMAGE_NAME:dev
+
+      - name: Build and push Web image
+        run: |
+          docker build \
+            -f app/Dockerfile.frontend \
+            -t $ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:dev \
+            app
+
+          docker push $ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:dev
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER_NAME }} \
+            --overwrite-existing
+
+      - name: Deploy Kubernetes manifests
+        run: |
+          kubectl apply -f k8s/dev/namespace.yaml
+          kubectl apply -f k8s/dev/api.yaml
+          kubectl apply -f k8s/dev/web.yaml
+
+      - name: Restart deployments to pull latest images
+        run: |
+          kubectl rollout restart deployment/netflix-api -n $NAMESPACE
+          kubectl rollout restart deployment/netflix-web -n $NAMESPACE
+
+      - name: Wait for rollout
+        run: |
+          kubectl rollout status deployment/netflix-api -n $NAMESPACE --timeout=180s
+          kubectl rollout status deployment/netflix-web -n $NAMESPACE --timeout=180s
+
+      - name: Show service status
+        run: |
+          kubectl get pods -n $NAMESPACE
+          kubectl get svc -n $NAMESPACE
