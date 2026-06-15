@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netflix-api
+  namespace: netflix-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netflix-api
+  template:
+    metadata:
+      labels:
+        app: netflix-api
+    spec:
+      containers:
+        - name: netflix-api
+          image: acrnetflixdevmac01.azurecr.io/netflix-api:dev
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netflix-api
+  namespace: netflix-dev
+spec:
+  type: ClusterIP
+  selector:
+    app: netflix-api
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
