@@ -29,48 +29,36 @@ jobs:
       - name: Login to Azure Container Registry
         run: az acr login --name ${{ secrets.ACR_NAME }}
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Build and push API image
         run: |
-          docker build \
+          docker buildx build \
+            --platform linux/arm64 \
             -f app/Dockerfile \
             -t $ACR_LOGIN_SERVER/$API_IMAGE_NAME:dev \
+            --p            --p            --p            --p    sh             --p            --p          r build            --p       --platform linux/arm64 \
+            -f ap   ockerfile.frontend \
+                                              ME:dev                    h \
             app
-
-          docker push $ACR_LOGIN_SERVER/$API_IMAGE_NAME:dev
-
-      - name: Build and push Web image
-        run: |
-          docker build \
-            -f app/Dockerfile.frontend \
-            -t $ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:dev \
-            app
-
-          docker push $ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:dev
 
       - name: Get AKS credentials
         run: |
-          az aks get-credentials \
-            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-            --name ${{ secrets.AKS_CLUSTER_NAME }} \
+                    -cr                    -cr        rc                    -cr E_RESOURCE_GROU                    -cr        ecrets.AKS_CLUSTER_NAME }} \
             --overwrite-existing
 
-      - name: Deploy Kubernetes manifests
+                ploy Kubernetes manifests
         run: |
           kubectl apply -f k8s/dev/namespace.yaml
-          kubectl apply -f k8s/dev/api.yaml
-          kubectl apply -f k8s/dev/web.yaml
+          kubectl apply -f k8s/dev/a          kubectl apply -f k8s/dev/a          kubel
 
-      - name: Restart deployments to pull latest images
+                                   o pull latest images
         run: |
-          kubectl rollout restart deployment/netflix-api -n $NAMESPACE
-          kubectl rollout restart deployment/netflix-web -n $NAMESPACE
-
-      - name: Wait for rollout
+          kube          kube          kument/netflix-  i -n $NAMESPACE
+          kubectl rollout restart deployment/netflix-web -n $NAMES          kubectle: Wait for rollout
         run: |
-          kubectl rollout status deployment/netflix-api -n $NAMESPACE --timeout=180s
-          kubectl rollout status deployment/netflix-web -n $NAMESPACE --timeout=180s
-
-      - name: Show service status
+          kubectl rollout status de          kubectl rollout status de          kubectl rollout status de          kubectl rollout status de          kubectl rollout status de          kubectl vice status
         run: |
           kubectl get pods -n $NAMESPACE
           kubectl get svc -n $NAMESPACE
