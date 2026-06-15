@@ -45,6 +45,7 @@ module "networking" {
   private_endpoint_subnet_prefix = var.private_endpoint_subnet_prefix
   tags                           = local.common_tags
 }
+
 module "acr" {
   source = "../../Modules/ACR"
 
@@ -53,4 +54,19 @@ module "acr" {
   location            = var.location
   sku                 = "Basic"
   tags                = local.common_tags
+}
+module "aks" {
+  source = "../../Modules/AKS"
+
+  aks_name            = var.aks_name
+  dns_prefix          = var.aks_dns_prefix
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  system_subnet_id    = module.networking.system_subnet_id
+  acr_id              = module.acr.id
+
+  system_node_count   = var.aks_system_node_count
+  system_node_vm_size = var.aks_system_node_vm_size
+
+  tags = local.common_tags
 }
