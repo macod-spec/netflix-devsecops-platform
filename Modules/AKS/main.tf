@@ -11,6 +11,12 @@ resource "azurerm_kubernetes_cluster" "this" {
     node_count     = var.system_node_count
     vm_size        = "standard_d2ps_v6"
     vnet_subnet_id = var.system_subnet_id
+
+    upgrade_settings {
+      drain_timeout_in_minutes      = 0
+      max_surge                     = "10%"
+      node_soak_duration_in_minutes = 0
+    }
   }
 
   identity {
@@ -18,11 +24,11 @@ resource "azurerm_kubernetes_cluster" "this" {
   }
 
   network_profile {
-  network_plugin     = "azure"
-  load_balancer_sku  = "standard"
-  service_cidr       = "10.100.0.0/16"
-  dns_service_ip     = "10.100.0.10"
-}
+    network_plugin    = "azure"
+    load_balancer_sku = "standard"
+    service_cidr      = "10.100.0.0/16"
+    dns_service_ip    = "10.100.0.10"
+  }
 
   role_based_access_control_enabled = true
 
