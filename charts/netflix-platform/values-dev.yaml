@@ -1,0 +1,34 @@
+namespace: netflix-dev
+
+image:
+  registry: acrnetflixdevmac01.azurecr.io
+  tag: dev
+  pullPolicy: Always
+
+api:
+  name: netflix-api
+  replicas: 1
+  imageName: netflix-api
+  containerPort: 8080
+  service:
+    type: ClusterIP
+    port: 8080
+    targetPort: 8080
+  probes:
+    path: /health
+    readinessInitialDelaySeconds: 15
+    livenessInitialDelaySeconds: 30
+
+web:
+  name: netflix-web
+  replicas: 1
+  imageName: netflix-web
+  containerPort: 8080
+  service:
+    type: LoadBalancer
+    port: 80
+    targetPort: 8080
+  probes:
+    path: /health
+    readinessInitialDelaySeconds: 10
+    livenessInitialDelaySeconds: 20
