@@ -1,9 +1,14 @@
 name: Deploy Dev to AKS
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "charts/netflix-platform/values-dev.yaml"
   workflow_dispatch:
 
 env:
@@ -17,12 +22,14 @@ env:
 
 jobs:
   build-and-deploy:
-    name: Build, Push and Deploy
+    name: Build, Push and GitOps Handoff
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set image tag
         run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
@@ -84,35 +91,28 @@ jobs:
           ignore-unfixed: true
           exit-code: '1'
 
-      - name: Get AKS credentials
-        run: |
-          az aks get-credentials \
-            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-            --name ${{ secrets.AKS_CLUSTER_NAME }} \
-            --overwrite-existing
-
       - name: Lint Helm chart
         run: |
           helm lint $HELM_CHART_PATH -f $HELM_VALUES_FILE
 
-      - name: Deploy with Helm
+      - name: Update Helm values image tag
         run: |
-          helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH \
-            -f $HELM_VALUES_FILE \
-            --namespace $NAMESPACE \
-            --create-namespace \
-            --set image.tag=$IMAGE_TAG
+          sed -i "s/tag: .*/tag: $IMAGE_TAG/" $HELM_VALUES_FILE
 
-      - name: Wait for rollout
+      - name: Commit updated image tag
         run: |
-          kubectl rollout status deployment/netflix-api -n $NAMESPACE --timeout=180s
-          kubectl rollout status deployment/netflix-web -n $NAMESPACE --timeout=180s
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
 
-      - name: Show service status
+          if git diff --quiet $HELM_VALUES_FILE; then
+            echo "No image tag change to commit."
+          else
+            git add $HELM_VALUES_FILE
+            git commit -m "Update dev image tag to $IMAGE_TAG [skip ci]"
+            git push
+          fi
+
+      - name: GitOps handoff complete
         run: |
-          helm list -n $NAMESPACE
-          helm status $HELM_RELEASE_NAME -n $NAMESPACE
-          kubectl get pods -n $NAMESPACE
-          kubectl get svc -n $NAMESPACE
-          kubectl get deployment netflix-api -n $NAMESPACE -o=jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
-          kubectl get deployment netflix-web -n $NAMESPACE -o=jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
+          echo "Image tag $IMAGE_TAG pushed to Git."
+          echo "Argo CD will sync the Helm chart from Git into AKS."
