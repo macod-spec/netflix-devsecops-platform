@@ -37,7 +37,10 @@ jobs:
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-               
+
+      - name: Show Azure login identity
+        run: |
+          az account show --query "{subscription:id, tenant:tenantId, loggedInAs:user.name, type:user.type}" -o table
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -55,3 +58,5 @@ jobs:
 
       - name: Terraform plan
         run: terraform plan -out=tfplan
+
+        
