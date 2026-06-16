@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: netflix-platform-dev
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/macod-spec/netflix-devsecops-platform.git
+    targetRevision: main
+    path: charts/netflix-platform
+    helm:
+      valueFiles:
+        - values-dev.yaml
+      parameters:
+        - name: image.tag
+          value: "5091b4f"
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: netflix-dev
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
