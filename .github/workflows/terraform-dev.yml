@@ -38,9 +38,12 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Show Azure login identity
+      - name: Show Azure login identity safely
         run: |
-          az account show --query "{subscription:id, tenant:tenantId, loggedInAs:user.name, type:user.type}" -o table
+          CLIENT_ID=$(az account show --query "user.name" -o tsv)
+          echo "Client ID prefix: ${CLIENT_ID:0:8}"
+          echo "Client ID suffix: ${CLIENT_ID: -8}"
+          az account show --query "{subscription:id, tenant:tenantId, type:user.type}" -o table
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -59,4 +62,3 @@ jobs:
       - name: Terraform plan
         run: terraform plan -out=tfplan
 
-        
