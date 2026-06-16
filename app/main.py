@@ -12,6 +12,10 @@ class Request(BaseModel):
 def root():
     return {"message": "FastAPI ML service is running"}
 
+@app.get("/health")
+def health():
+    return {"status": "healthy"}
+
 @app.post("/embed")
 def embed_text(request: Request):
     embedding = model.encode(request.text).tolist()
