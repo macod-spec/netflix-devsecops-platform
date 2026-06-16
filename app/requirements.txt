@@ -1,3 +1,4 @@
 fastapi
 uvicorn
 sentence-transformers
+wheel>=0.46.2
