@@ -21,6 +21,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set image tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
       - name: Azure login
         uses: azure/login@v2
         with:
@@ -37,6 +40,7 @@ jobs:
           docker buildx build \
             --platform linux/arm64 \
             -f app/Dockerfile \
+            -t $ACR_LOGIN_SERVER/$API_IMAGE_NAME:$IMAGE_TAG \
             -t $ACR_LOGIN_SERVER/$API_IMAGE_NAME:dev \
             --push \
             app
@@ -46,6 +50,7 @@ jobs:
           docker buildx build \
             --platform linux/arm64 \
             -f app/Dockerfile.frontend \
+            -t $ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:$IMAGE_TAG \
             -t $ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:dev \
             --push \
             app
@@ -63,10 +68,15 @@ jobs:
           kubectl apply -f k8s/dev/api.yaml
           kubectl apply -f k8s/dev/web.yaml
 
-      - name: Restart deployments to pull latest images
+      - name: Update deployments to commit-tagged images
         run: |
-          kubectl rollout restart deployment/netflix-api -n $NAMESPACE
-          kubectl rollout restart deployment/netflix-web -n $NAMESPACE
+          kubectl set image deployment/netflix-api \
+            netflix-api=$ACR_LOGIN_SERVER/$API_IMAGE_NAME:$IMAGE_TAG \
+            -n $NAMESPACE
+
+          kubectl set image deployment/netflix-web \
+            netflix-web=$ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:$IMAGE_TAG \
+            -n $NAMESPACE
 
       - name: Wait for rollout
         run: |
@@ -77,3 +87,5 @@ jobs:
         run: |
           kubectl get pods -n $NAMESPACE
           kubectl get svc -n $NAMESPACE
+          kubectl get deployment netflix-api -n $NAMESPACE -o=jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
+          kubectl get deployment netflix-web -n $NAMESPACE -o=jsonpath='{.spec.template.spec.containers[0].image}{"\n"}'
