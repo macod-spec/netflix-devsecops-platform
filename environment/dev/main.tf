@@ -69,4 +69,22 @@ module "aks" {
   system_node_vm_size = var.aks_system_node_vm_size
 
   tags = local.common_tags
+
+  log_analytics_workspace_id = module.monitoring.log_analytics_workspace_id
+}
+
+module "monitoring" {
+  source = "../../Modules/monitoring"
+
+  log_analytics_workspace_name = "law-netflix-dev-uksouth"
+  location                     = "uksouth"
+  resource_group_name          = "rg-netflix-dev-uksouth"
+  retention_in_days            = 30
+
+  tags = {
+    environment = "dev"
+    managed_by  = "terraform"
+    owner       = "mac"
+    project     = "netflix-devsecops-platform"
+  }
 }

@@ -51,3 +51,8 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+variable "log_analytics_workspace_id" {
+  description = "Optional Log Analytics Workspace ID used by AKS Container Insights."
+  type        = string
+  default     = null
+}
