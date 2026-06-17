@@ -89,3 +89,20 @@ module "monitoring" {
     project     = "netflix-devsecops-platform"
   }
 }
+
+module "finops" {
+  source = "../../Modules/finops"
+
+  resource_group_name   = "rg-netflix-dev-uksouth"
+  monthly_budget_amount = 100
+  budget_alert_email    = var.alert_email
+  budget_start_date     = "2026-06-01T00:00:00Z"
+  budget_end_date       = "2036-06-01T00:00:00Z"
+
+  tags = {
+    environment = "dev"
+    managed_by  = "terraform"
+    owner       = "mac"
+    project     = "netflix-devsecops-platform"
+  }
+}
