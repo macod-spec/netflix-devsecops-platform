@@ -2,7 +2,7 @@ namespace: netflix-dev
 
 image:
   registry: acrnetflixdevmac01.azurecr.io
-  tag: "0d2e114"
+  tag: "2d52b60"
   pullPolicy: Always
 
 api:
