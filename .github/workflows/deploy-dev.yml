@@ -7,8 +7,12 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - "charts/netflix-platform/values-dev.yaml"
+    paths:
+      - "app/**"
+      - "charts/netflix-platform/**"
+      - ".github/workflows/deploy-dev.yml"
+      - "!charts/netflix-platform/values-dev.yaml"
+
   workflow_dispatch:
 
 env:
