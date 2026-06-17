@@ -64,3 +64,9 @@ variable "acr_name" {
   description = "Name of the dev Azure Container Registry."
   type        = string
 }
+
+variable "alert_email" {
+  description = "Email address used by the Azure Monitor Action Group."
+  type        = string
+  default     = ""
+}

@@ -26,6 +26,14 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "netflix_dev_pods_not_
     metric_measure_column   = "AggregatedValue"
   }
 
+  dynamic "action" {
+    for_each = var.alert_email != "" ? [1] : []
+
+    content {
+      action_groups = [azurerm_monitor_action_group.ops[0].id]
+    }
+  }
+
   tags = var.tags
 }
 
@@ -56,6 +64,14 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "netflix_dev_pod_resta
     operator                = "GreaterThan"
     threshold               = 0
     metric_measure_column   = "AggregatedValue"
+  }
+
+  dynamic "action" {
+    for_each = var.alert_email != "" ? [1] : []
+
+    content {
+      action_groups = [azurerm_monitor_action_group.ops[0].id]
+    }
   }
 
   tags = var.tags

@@ -34,3 +34,4 @@ coverage/
 # IDE
 .vscode/
 .idea/
+environment/dev/local.auto.tfvars

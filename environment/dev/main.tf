@@ -80,6 +80,7 @@ module "monitoring" {
   location                     = "uksouth"
   resource_group_name          = "rg-netflix-dev-uksouth"
   retention_in_days            = 30
+  alert_email                  = var.alert_email
 
   tags = {
     environment = "dev"

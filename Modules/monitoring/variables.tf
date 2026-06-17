@@ -24,3 +24,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "alert_email" {
+  description = "Email address used by the Azure Monitor Action Group."
+  type        = string
+  default     = ""
+}
