@@ -38,3 +38,28 @@ Build separate development and production environments using Azure, Terraform, K
 - Argo Rollouts
 - Prometheus
 - Grafana
+
+
+## Evidence Screenshots
+
+### AKS Monitoring — Cluster Overview
+
+![AKS Monitor Cluster Overview](docs/evidence/screenshots/01-aks-monitor-cluster-overview.png)
+
+### AKS Monitoring — Container Health
+
+![AKS Monitor Container Health](docs/evidence/screenshots/02-aks-monitor-containers-health.png)
+
+### AKS Monitoring — Node Health
+
+![AKS Monitor Node Health](docs/evidence/screenshots/03-aks-monitor-node-health.png)
+
+### Deployed Netflix Frontend — Homepage
+
+![Netflix App Homepage](docs/evidence/screenshots/04-netflix-app-homepage-hero.png)
+
+### Deployed Netflix Frontend — Movie Categories
+
+![Netflix App Movie Categories](docs/evidence/screenshots/05-netflix-app-movie-categories.png)
+
+
