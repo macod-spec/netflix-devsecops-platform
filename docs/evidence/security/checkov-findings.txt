@@ -1,0 +1,1009 @@
+
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.3.1 
+
+terraform scan results:
+
+Passed checks: 42, Failed checks: 22, Skipped checks: 0
+
+Check: CKV_AZURE_138: "Ensures that ACR disables anonymous pulling of images"
+	PASSED for resource: module.acr.azurerm_container_registry.this
+	File: /Modules/ACR/main.tf:1-8
+	Calling File: /environment/dev/main.tf:49-57
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-iam-policies/ensure-azure-acr-disables-anonymous-image-pulling
+Check: CKV_AZURE_137: "Ensure ACR admin account is disabled"
+	PASSED for resource: module.acr.azurerm_container_registry.this
+	File: /Modules/ACR/main.tf:1-8
+	Calling File: /environment/dev/main.tf:49-57
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-iam-policies/bc-azure-137
+Check: CKV_AZURE_8: "Ensure Kubernetes Dashboard is disabled"
+	PASSED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/bc-azr-kubernetes-5
+Check: CKV_AZURE_143: "Ensure AKS cluster nodes do not have public IP addresses"
+	PASSED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azure-143
+Check: CKV_AZURE_4: "Ensure AKS logging to Azure Monitoring is Configured"
+	PASSED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/bc-azr-kubernetes-1
+Check: CKV_AZURE_246: "Ensure Azure AKS cluster HTTP application routing is disabled"
+	PASSED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azure-246
+Check: CKV_AZURE_169: "Ensure Azure Kubernetes Cluster (AKS) nodes use scale sets"
+	PASSED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/azr-kubernetes-169
+Check: CKV_AZURE_5: "Ensure RBAC is enabled on AKS clusters"
+	PASSED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/bc-azr-kubernetes-2
+Check: CKV_AZURE_183: "Ensure that VNET uses local DNS addresses"
+	PASSED for resource: module.networking.azurerm_virtual_network.this
+	File: /Modules/networking/main.tf:1-7
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/azr-networking-183
+Check: CKV_AZURE_182: "Ensure that VNET has at least 2 connected DNS Endpoints"
+	PASSED for resource: module.networking.azurerm_virtual_network.this
+	File: /Modules/networking/main.tf:1-7
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/azr-networking-182
+Check: CKV_AZURE_77: "Ensure that UDP Services are restricted from the Internet "
+	PASSED for resource: module.networking.azurerm_network_security_group.system
+	File: /Modules/networking/main.tf:9-14
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-that-udp-services-are-restricted-from-the-internet
+Check: CKV_AZURE_10: "Ensure that SSH access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.system
+	File: /Modules/networking/main.tf:9-14
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-3
+Check: CKV_AZURE_9: "Ensure that RDP access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.system
+	File: /Modules/networking/main.tf:9-14
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-2
+Check: CKV_AZURE_160: "Ensure that HTTP (port 80) access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.system
+	File: /Modules/networking/main.tf:9-14
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-azure-http-port-80-access-from-the-internet-is-restricted
+Check: CKV_AZURE_77: "Ensure that UDP Services are restricted from the Internet "
+	PASSED for resource: module.networking.azurerm_network_security_group.app
+	File: /Modules/networking/main.tf:16-21
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-that-udp-services-are-restricted-from-the-internet
+Check: CKV_AZURE_10: "Ensure that SSH access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.app
+	File: /Modules/networking/main.tf:16-21
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-3
+Check: CKV_AZURE_9: "Ensure that RDP access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.app
+	File: /Modules/networking/main.tf:16-21
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-2
+Check: CKV_AZURE_160: "Ensure that HTTP (port 80) access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.app
+	File: /Modules/networking/main.tf:16-21
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-azure-http-port-80-access-from-the-internet-is-restricted
+Check: CKV_AZURE_77: "Ensure that UDP Services are restricted from the Internet "
+	PASSED for resource: module.networking.azurerm_network_security_group.ingress
+	File: /Modules/networking/main.tf:23-28
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-that-udp-services-are-restricted-from-the-internet
+Check: CKV_AZURE_10: "Ensure that SSH access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.ingress
+	File: /Modules/networking/main.tf:23-28
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-3
+Check: CKV_AZURE_9: "Ensure that RDP access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.ingress
+	File: /Modules/networking/main.tf:23-28
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-2
+Check: CKV_AZURE_160: "Ensure that HTTP (port 80) access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.ingress
+	File: /Modules/networking/main.tf:23-28
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-azure-http-port-80-access-from-the-internet-is-restricted
+Check: CKV_AZURE_77: "Ensure that UDP Services are restricted from the Internet "
+	PASSED for resource: module.networking.azurerm_network_security_group.private_endpoints
+	File: /Modules/networking/main.tf:30-35
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-that-udp-services-are-restricted-from-the-internet
+Check: CKV_AZURE_10: "Ensure that SSH access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.private_endpoints
+	File: /Modules/networking/main.tf:30-35
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-3
+Check: CKV_AZURE_9: "Ensure that RDP access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.private_endpoints
+	File: /Modules/networking/main.tf:30-35
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-2
+Check: CKV_AZURE_160: "Ensure that HTTP (port 80) access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_group.private_endpoints
+	File: /Modules/networking/main.tf:30-35
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-azure-http-port-80-access-from-the-internet-is-restricted
+Check: CKV_AZURE_77: "Ensure that UDP Services are restricted from the Internet "
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_http_80
+	File: /Modules/networking/nsg-rules.tf:1-13
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-that-udp-services-are-restricted-from-the-internet
+Check: CKV_AZURE_10: "Ensure that SSH access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_http_80
+	File: /Modules/networking/nsg-rules.tf:1-13
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-3
+Check: CKV_AZURE_9: "Ensure that RDP access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_http_80
+	File: /Modules/networking/nsg-rules.tf:1-13
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-2
+Check: CKV_AZURE_77: "Ensure that UDP Services are restricted from the Internet "
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_nodeport_30507
+	File: /Modules/networking/nsg-rules.tf:15-27
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-that-udp-services-are-restricted-from-the-internet
+Check: CKV_AZURE_10: "Ensure that SSH access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_nodeport_30507
+	File: /Modules/networking/nsg-rules.tf:15-27
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-3
+Check: CKV_AZURE_9: "Ensure that RDP access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_nodeport_30507
+	File: /Modules/networking/nsg-rules.tf:15-27
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-2
+Check: CKV_AZURE_160: "Ensure that HTTP (port 80) access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_nodeport_30507
+	File: /Modules/networking/nsg-rules.tf:15-27
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-azure-http-port-80-access-from-the-internet-is-restricted
+Check: CKV_AZURE_77: "Ensure that UDP Services are restricted from the Internet "
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_azure_load_balancer
+	File: /Modules/networking/nsg-rules.tf:29-41
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-that-udp-services-are-restricted-from-the-internet
+Check: CKV_AZURE_10: "Ensure that SSH access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_azure_load_balancer
+	File: /Modules/networking/nsg-rules.tf:29-41
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-3
+Check: CKV_AZURE_9: "Ensure that RDP access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_azure_load_balancer
+	File: /Modules/networking/nsg-rules.tf:29-41
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/bc-azr-networking-2
+Check: CKV_AZURE_160: "Ensure that HTTP (port 80) access is restricted from the internet"
+	PASSED for resource: module.networking.azurerm_network_security_rule.system_allow_azure_load_balancer
+	File: /Modules/networking/nsg-rules.tf:29-41
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-azure-http-port-80-access-from-the-internet-is-restricted
+Check: CKV2_AZURE_29: "Ensure AKS cluster has Azure CNI networking enabled"
+	PASSED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/bc-azure-2-29
+Check: CKV2_AZURE_31: "Ensure VNET subnet is configured with a Network Security Group (NSG)"
+	PASSED for resource: module.networking.azurerm_subnet.system
+	File: /Modules/networking/main.tf:37-42
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/bc-azure-2-31
+Check: CKV2_AZURE_31: "Ensure VNET subnet is configured with a Network Security Group (NSG)"
+	PASSED for resource: module.networking.azurerm_subnet.app
+	File: /Modules/networking/main.tf:44-49
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/bc-azure-2-31
+Check: CKV2_AZURE_31: "Ensure VNET subnet is configured with a Network Security Group (NSG)"
+	PASSED for resource: module.networking.azurerm_subnet.ingress
+	File: /Modules/networking/main.tf:51-56
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/bc-azure-2-31
+Check: CKV2_AZURE_31: "Ensure VNET subnet is configured with a Network Security Group (NSG)"
+	PASSED for resource: module.networking.azurerm_subnet.private_endpoints
+	File: /Modules/networking/main.tf:58-63
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/bc-azure-2-31
+Check: CKV_AZURE_237: "Ensure dedicated data endpoints are enabled."
+	FAILED for resource: module.acr.azurerm_container_registry.this
+	File: /Modules/ACR/main.tf:1-8
+	Calling File: /environment/dev/main.tf:49-57
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/bc-azure-237
+
+		1 | resource "azurerm_container_registry" "this" {
+		2 |   name                = var.acr_name
+		3 |   resource_group_name = var.resource_group_name
+		4 |   location            = var.location
+		5 |   sku                 = var.sku
+		6 |   admin_enabled       = false
+		7 |   tags                = var.tags
+		8 | }
+
+Check: CKV_AZURE_233: "Ensure Azure Container Registry (ACR) is zone redundant"
+	FAILED for resource: module.acr.azurerm_container_registry.this
+	File: /Modules/ACR/main.tf:1-8
+	Calling File: /environment/dev/main.tf:49-57
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/bc-azure-233
+
+		1 | resource "azurerm_container_registry" "this" {
+		2 |   name                = var.acr_name
+		3 |   resource_group_name = var.resource_group_name
+		4 |   location            = var.location
+		5 |   sku                 = var.sku
+		6 |   admin_enabled       = false
+		7 |   tags                = var.tags
+		8 | }
+
+Check: CKV_AZURE_167: "Ensure a retention policy is set to cleanup untagged manifests."
+	FAILED for resource: module.acr.azurerm_container_registry.this
+	File: /Modules/ACR/main.tf:1-8
+	Calling File: /environment/dev/main.tf:49-57
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/azr-general-167
+
+		1 | resource "azurerm_container_registry" "this" {
+		2 |   name                = var.acr_name
+		3 |   resource_group_name = var.resource_group_name
+		4 |   location            = var.location
+		5 |   sku                 = var.sku
+		6 |   admin_enabled       = false
+		7 |   tags                = var.tags
+		8 | }
+
+Check: CKV_AZURE_164: "Ensures that ACR uses signed/trusted images"
+	FAILED for resource: module.acr.azurerm_container_registry.this
+	File: /Modules/ACR/main.tf:1-8
+	Calling File: /environment/dev/main.tf:49-57
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/azr-general-164
+
+		1 | resource "azurerm_container_registry" "this" {
+		2 |   name                = var.acr_name
+		3 |   resource_group_name = var.resource_group_name
+		4 |   location            = var.location
+		5 |   sku                 = var.sku
+		6 |   admin_enabled       = false
+		7 |   tags                = var.tags
+		8 | }
+
+Check: CKV_AZURE_165: "Ensure geo-replicated container registries to match multi-region container deployments."
+	FAILED for resource: module.acr.azurerm_container_registry.this
+	File: /Modules/ACR/main.tf:1-8
+	Calling File: /environment/dev/main.tf:49-57
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/azr-networking-165
+
+		1 | resource "azurerm_container_registry" "this" {
+		2 |   name                = var.acr_name
+		3 |   resource_group_name = var.resource_group_name
+		4 |   location            = var.location
+		5 |   sku                 = var.sku
+		6 |   admin_enabled       = false
+		7 |   tags                = var.tags
+		8 | }
+
+Check: CKV_AZURE_166: "Ensure container image quarantine, scan, and mark images verified"
+	FAILED for resource: module.acr.azurerm_container_registry.this
+	File: /Modules/ACR/main.tf:1-8
+	Calling File: /environment/dev/main.tf:49-57
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/azr-general-166
+
+		1 | resource "azurerm_container_registry" "this" {
+		2 |   name                = var.acr_name
+		3 |   resource_group_name = var.resource_group_name
+		4 |   location            = var.location
+		5 |   sku                 = var.sku
+		6 |   admin_enabled       = false
+		7 |   tags                = var.tags
+		8 | }
+
+Check: CKV_AZURE_163: "Enable vulnerability scanning for container images."
+	FAILED for resource: module.acr.azurerm_container_registry.this
+	File: /Modules/ACR/main.tf:1-8
+	Calling File: /environment/dev/main.tf:49-57
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/azr-general-163
+
+		1 | resource "azurerm_container_registry" "this" {
+		2 |   name                = var.acr_name
+		3 |   resource_group_name = var.resource_group_name
+		4 |   location            = var.location
+		5 |   sku                 = var.sku
+		6 |   admin_enabled       = false
+		7 |   tags                = var.tags
+		8 | }
+
+Check: CKV_AZURE_139: "Ensure ACR set to disable public networking"
+	FAILED for resource: module.acr.azurerm_container_registry.this
+	File: /Modules/ACR/main.tf:1-8
+	Calling File: /environment/dev/main.tf:49-57
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-azure-acr-is-set-to-disable-public-networking
+
+		1 | resource "azurerm_container_registry" "this" {
+		2 |   name                = var.acr_name
+		3 |   resource_group_name = var.resource_group_name
+		4 |   location            = var.location
+		5 |   sku                 = var.sku
+		6 |   admin_enabled       = false
+		7 |   tags                = var.tags
+		8 | }
+
+Check: CKV_AZURE_170: "Ensure that AKS use the Paid Sku for its SLA"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/azr-general-170
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_172: "Ensure autorotation of Secrets Store CSI Driver secrets for AKS clusters"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/azr-general-172
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_141: "Ensure AKS local admin account is disabled"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-iam-policies/ensure-azure-kubernetes-service-aks-local-admin-account-is-disabled
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_115: "Ensure that AKS enables private clusters"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/ensure-that-aks-enables-private-clusters
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_117: "Ensure that AKS uses disk encryption set"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/ensure-that-aks-uses-disk-encryption-set
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_7: "Ensure AKS cluster has Network Policy configured"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/bc-azr-kubernetes-4
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_232: "Ensure that only critical system pods run on system nodes"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/bc-azure-232
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_226: "Ensure ephemeral disks are used for OS disks"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/bc-azure-226
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_116: "Ensure that AKS uses Azure Policies Add-on"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/ensure-that-aks-uses-azure-policies-add-on
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_6: "Ensure AKS has an API Server Authorized IP Ranges enabled"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/bc-azr-kubernetes-3
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_171: "Ensure AKS cluster upgrade channel is chosen"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/azr-networking-171
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_168: "Ensure Azure Kubernetes Cluster (AKS) nodes should use a minimum number of 50 pods."
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/azr-kubernetes-168
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_227: "Ensure that the AKS cluster encrypt temp disks, caches, and data flows between Compute and Storage resources"
+	FAILED for resource: module.aks.azurerm_kubernetes_cluster.this
+	File: /Modules/AKS/main.tf:1-43
+	Calling File: /environment/dev/main.tf:58-74
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-kubernetes-policies/bc-azure-227
+
+		1  | resource "azurerm_kubernetes_cluster" "this" {
+		2  |   name                = var.aks_name
+		3  |   location            = var.location
+		4  |   resource_group_name = var.resource_group_name
+		5  |   dns_prefix          = var.dns_prefix
+		6  | 
+		7  |   kubernetes_version = var.kubernetes_version
+		8  | 
+		9  |   default_node_pool {
+		10 |     name           = "system"
+		11 |     node_count     = var.system_node_count
+		12 |     vm_size        = "standard_d2ps_v6"
+		13 |     vnet_subnet_id = var.system_subnet_id
+		14 | 
+		15 |     upgrade_settings {
+		16 |       drain_timeout_in_minutes      = 0
+		17 |       max_surge                     = "10%"
+		18 |       node_soak_duration_in_minutes = 0
+		19 |     }
+		20 |   }
+		21 | 
+		22 |   identity {
+		23 |     type = "SystemAssigned"
+		24 |   }
+		25 | 
+		26 |   network_profile {
+		27 |     network_plugin    = "azure"
+		28 |     load_balancer_sku = "standard"
+		29 |     service_cidr      = "10.100.0.0/16"
+		30 |     dns_service_ip    = "10.100.0.10"
+		31 |   }
+		32 |   dynamic "oms_agent" {
+		33 |     for_each = var.log_analytics_workspace_id != null && var.log_analytics_workspace_id != "" ? [1] : []
+		34 | 
+		35 |     content {
+		36 |       log_analytics_workspace_id      = var.log_analytics_workspace_id
+		37 |       msi_auth_for_monitoring_enabled = true
+		38 |     }
+		39 |   }
+		40 |   role_based_access_control_enabled = true
+		41 | 
+		42 |   tags = var.tags
+		43 | }
+
+Check: CKV_AZURE_160: "Ensure that HTTP (port 80) access is restricted from the internet"
+	FAILED for resource: module.networking.azurerm_network_security_rule.system_allow_http_80
+	File: /Modules/networking/nsg-rules.tf:1-13
+	Calling File: /environment/dev/main.tf:35-47
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-networking-policies/ensure-azure-http-port-80-access-from-the-internet-is-restricted
+
+		1  | resource "azurerm_network_security_rule" "system_allow_http_80" {
+		2  |   name                        = "Allow-NetFlix-Web-HTTP-80"
+		3  |   priority                    = 299
+		4  |   direction                   = "Inbound"
+		5  |   access                      = "Allow"
+		6  |   protocol                    = "Tcp"
+		7  |   source_port_range           = "*"
+		8  |   destination_port_range      = "80"
+		9  |   source_address_prefix       = "Internet"
+		10 |   destination_address_prefix  = "*"
+		11 |   resource_group_name         = var.resource_group_name
+		12 |   network_security_group_name = azurerm_network_security_group.system.name
+		13 | }
+
+
