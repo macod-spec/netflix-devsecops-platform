@@ -1,0 +1,3 @@
+NAME                           READY   STATUS    RESTARTS   AGE
+netflix-api-5b48f46576-87djm   1/1     Running   0          16h
+netflix-web-556bbf9d9b-bdrnp   1/1     Running   0          16h

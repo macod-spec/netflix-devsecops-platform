@@ -1,0 +1,4 @@
+Name                                Enabled    Severity
+----------------------------------  ---------  ----------
+alert-netflix-dev-pod-restarts      True       3
+alert-netflix-dev-pods-not-running  True       2
