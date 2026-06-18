@@ -19,7 +19,8 @@ Operational monitoring and alerting
 Cost visibility and budget control
 Evidence for audit, troubleshooting, and portfolio review
 
-Architecture Diagram
+Architecture Diagram:
+
 The diagram shows the end-to-end solution architecture for the Netflix DevSecOps Platform. It covers the full flow from source control and CI/CD through Azure Container Registry, Terraform-managed infrastructure, AKS runtime, Argo CD GitOps deployment, monitoring, alerting, and FinOps controls.
 
 Engineering Goal:
