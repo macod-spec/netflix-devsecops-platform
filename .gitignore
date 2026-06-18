@@ -36,3 +36,4 @@ coverage/
 .idea/
 environment/dev/local.auto.tfvars
 .venv-security/
+terraform-state-final-backup.json
