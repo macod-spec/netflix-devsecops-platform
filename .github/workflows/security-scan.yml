@@ -51,6 +51,5 @@ jobs:
           checkov \
             --directory . \
             --framework terraform \
-            --soft-fail \
             --compact
             
