@@ -1,3 +1,4 @@
+#checkov:skip=CKV_AZURE_160:HTTP port 80 is intentionally exposed for the public demo endpoint; TLS ingress and domain are planned for a later phase.
 resource "azurerm_network_security_rule" "system_allow_http_80" {
   name                        = "Allow-NetFlix-Web-HTTP-80"
   priority                    = 299
