@@ -1,9 +1,11 @@
-import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { MEDIA_TYPE, PaginatedMovieResult } from "src/types/Common";
 import { MovieDetail } from "src/types/Movie";
 import { tmdbApi } from "./apiSlice";
 
-const initialState: Record<string, Record<number | string, PaginatedMovieResult>> = {};
+type DiscoverState = Record<string, Record<string, PaginatedMovieResult>>;
+
+const initialState: DiscoverState = {};
 
 export const initialItemState: PaginatedMovieResult = {
   page: 0,
@@ -15,7 +17,7 @@ export const initialItemState: PaginatedMovieResult = {
 const extendedApi = tmdbApi.injectEndpoints({
   endpoints: (build) => ({
     getVideosByMediaTypeAndGenreId: build.query<
-      PaginatedMovieResult & { mediaType: MEDIA_TYPE; itemKey: number | string },
+      PaginatedMovieResult & { mediaType: MEDIA_TYPE; itemKey: string },
       { mediaType: MEDIA_TYPE; genreId: number; page: number }
     >({
       query: ({ mediaType, genreId, page }) => ({
@@ -29,9 +31,20 @@ const extendedApi = tmdbApi.injectEndpoints({
       ) => ({
         ...response,
         mediaType,
-        itemKe        itemKe        itemKe        itemKe        itypeAn        itemKe        itemKe        itemKe        itemKe        ity:         itemKe        itemKe        itemKe    {        itemKe        itemKe        tri        itemKe        itemKe        itemKe        itemKe        itypeAn        item    ur        itemKe        itemKe        itemKe        iteme         i}),
+        itemKey: String(genreId),
+      }),
+    }),
+
+    getVideosByMediaTypeAndCustomGenre: build.query<
+      PaginatedMovieResult & { mediaType: MEDIA_TYPE; itemKey: string },
+      { mediaType: MEDIA_TYPE; apiString: string; page: number }
+    >({
+      query: ({ mediaType, apiString, page }) => ({
+        url: `/${mediaType}/${apiString}`,
+        params: { page },
+      }),
       transformResponse: (
-        response: Pagina edMovieResult,
+        response: PaginatedMovieResult,
         _,
         { mediaType, apiString }
       ) => ({
@@ -46,20 +59,63 @@ const extendedApi = tmdbApi.injectEndpoints({
       { mediaType: MEDIA_TYPE; id: number }
     >({
       query: ({ mediaType, id }) => ({
-        url: `/${media        url: `/${media        url: `/d_to_response: "videos" },
+        url: `/${mediaType}/${id}`,
+        params: { append_to_response: "videos" },
       }),
     }),
 
-            ar            ar      
-                                            e: MEDIA_TYPE                             qu            aType, id }) => ({
-        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `ta        url: `/${med     st        url: `/${mediaT     
+    getSimilarVideos: build.query<
+      PaginatedMovieResult,
+      { mediaType: MEDIA_TYPE; id: number }
+    >({
+      query: ({ mediaType, id }) => ({
+        url: `/${mediaType}/${id}/similar`,
+      }),
+    }),
+  }),
+});
 
-      if (   ate[medi      if (   ate[medi      if (e[      if (  te      if (   ate[meSt           }
+const discoverSlice = createSlice({
+  name: "discover",
+  initialState,
+  reducers: {
+    setNextPage: (
+      state,
+      action: PayloadAction<{ mediaType: MEDIA_TYPE; itemKey: string | number }>
+    ) => {
+      const { mediaType, itemKey } = action.payload;
+      const key = String(itemKey);
+
+      if (state[mediaType]?.[key]) {
+        state[mediaType][key].page += 1;
+      }
+    },
+
+    initiateItem: (
+      state,
+      action: PayloadAction<{ mediaType: MEDIA_TYPE; itemKey: string | number }>
+    ) => {
+      const { mediaType, itemKey } = action.payload;
+      const key = String(itemKey);
+
+      if (!state[mediaType]) {
+        state[mediaType] = {};
+      }
+
+      if (!state[mediaType][key]) {
+        state[mediaType][key] = { ...initialItemState };
+      }
     },
   },
+
   extraReducers(builder) {
-    builder.ad    builder.ad    builder.ad     ext    builder.points.    builder.ad    builder.ad    builder.adlfilled,
-                                 VideosB                                 VideosB                                 VideosB    t {
+    builder.addMatcher(
+      isAnyOf(
+        extendedApi.endpoints.getVideosByMediaTypeAndCustomGenre.matchFulfilled,
+        extendedApi.endpoints.getVideosByMediaTypeAndGenreId.matchFulfilled
+      ),
+      (state, action) => {
+        const {
           page,
           results,
           total_pages,
@@ -68,8 +124,33 @@ const extendedApi = tmdbApi.injectEndpoints({
           itemKey,
         } = action.payload;
 
-        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media   useLa        state[media        state[media        state[media        state[media        state[media     ery,
-  useGetS  useGetS  useGry,
+        if (!state[mediaType]) {
+          state[mediaType] = {};
+        }
+
+        if (!state[mediaType][itemKey]) {
+          state[mediaType][itemKey] = { ...initialItemState };
+        }
+
+        state[mediaType][itemKey].page = page;
+        state[mediaType][itemKey].results.push(...results);
+        state[mediaType][itemKey].total_pages = total_pages;
+        state[mediaType][itemKey].total_results = total_results;
+      }
+    );
+  },
+});
+
+export const { setNextPage, initiateItem } = discoverSlice.actions;
+
+export const {
+  useGetVideosByMediaTypeAndGenreIdQuery,
+  useLazyGetVideosByMediaTypeAndGenreIdQuery,
+  useGetVideosByMediaTypeAndCustomGenreQuery,
+  useLazyGetVideosByMediaTypeAndCustomGenreQuery,
+  useGetAppendedVideosQuery,
+  useLazyGetAppendedVideosQuery,
+  useGetSimilarVideosQuery,
   useLazyGetSimilarVideosQuery,
 } = extendedApi;
 
