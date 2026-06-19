@@ -37,3 +37,21 @@ coverage/
 environment/dev/local.auto.tfvars
 .venv-security/
 terraform-state-final-backup.json
+
+# Local backups
+.local-backup/
+
+# Environment files
+.env
+**/.env
+**/.env.*
+!**/.env.example
+
+# Frontend generated files
+**/node_modules/
+**/dist/
+
+# Python generated files
+**/.venv/
+**/__pycache__/
+**/*.py[cod]
