@@ -10,12 +10,22 @@ api:
   replicas: 1
   imageName: netflix-api
   containerPort: 8080
+
+  env:
+    tmdbBaseUrl: "https://api.themoviedb.org/3"
+
+  secret:
+    name: netflix-tmdb
+    apiKeyName: TMDB_API_KEY
+
   service:
     type: ClusterIP
     port: 8080
     targetPort: 8080
+
   probes:
-    path: /health
+    readinessPath: /ready
+    livenessPath: /health
     readinessInitialDelaySeconds: 15
     livenessInitialDelaySeconds: 30
 
@@ -24,10 +34,12 @@ web:
   replicas: 1
   imageName: netflix-web
   containerPort: 8080
+
   service:
     type: LoadBalancer
     port: 80
     targetPort: 8080
+
   probes:
     path: /health
     readinessInitialDelaySeconds: 10
