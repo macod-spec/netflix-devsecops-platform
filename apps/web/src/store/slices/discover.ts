@@ -1,10 +1,10 @@
-import { TMDB_V3_API_KEY } from "src/constant";
-import { tmdbApi } from "./apiSlice";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { MEDIA_TYPE, PaginatedMovieResult } from "src/types/Common";
 import { MovieDetail } from "src/types/Movie";
-import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { tmdbApi } from "./apiSlice";
 
-const initialState: Record<string, Record<string, PaginatedMovieResult>> = {};
+const initialState: Record<string, Record<number | string, PaginatedMovieResult>> = {};
+
 export const initialItemState: PaginatedMovieResult = {
   page: 0,
   results: [],
@@ -12,63 +12,15 @@ export const initialItemState: PaginatedMovieResult = {
   total_results: 0,
 };
 
-const discoverSlice = createSlice({
-  name: "discover",
-  initialState,
-  reducers: {
-    setNextPage: (state, action) => {
-      const { mediaType, itemKey } = action.payload;
-      state[mediaType][itemKey].page += 1;
-    },
-    initiateItem: (state, action) => {
-      const { mediaType, itemKey } = action.payload;
-      if (!state[mediaType]) {
-        state[mediaType] = {};
-      }
-      if (!state[mediaType][itemKey]) {
-        state[mediaType][itemKey] = initialItemState;
-      }
-    },
-  },
-  extraReducers(builder) {
-    builder.addMatcher(
-      isAnyOf(
-        extendedApi.endpoints.getVideosByMediaTypeAndCustomGenre.matchFulfilled,
-        extendedApi.endpoints.getVideosByMediaTypeAndGenreId.matchFulfilled
-      ),
-      (state, action) => {
-        const {
-          page,
-          results,
-          total_pages,
-          total_results,
-          mediaType,
-          itemKey,
-        } = action.payload;
-        state[mediaType][itemKey].page = page;
-        state[mediaType][itemKey].results.push(...results);
-        state[mediaType][itemKey].total_pages = total_pages;
-        state[mediaType][itemKey].total_results = total_results;
-      }
-    );
-  },
-});
-
-export const { setNextPage, initiateItem } = discoverSlice.actions;
-export default discoverSlice.reducer;
-
 const extendedApi = tmdbApi.injectEndpoints({
   endpoints: (build) => ({
     getVideosByMediaTypeAndGenreId: build.query<
-      PaginatedMovieResult & {
-        mediaType: MEDIA_TYPE;
-        itemKey: number | string;
-      },
+      PaginatedMovieResult & { mediaType: MEDIA_TYPE; itemKey: number | string },
       { mediaType: MEDIA_TYPE; genreId: number; page: number }
     >({
       query: ({ mediaType, genreId, page }) => ({
         url: `/discover/${mediaType}`,
-        params: { api_key: TMDB_V3_API_KEY, with_genres: genreId, page },
+        params: { with_genres: genreId, page },
       }),
       transformResponse: (
         response: PaginatedMovieResult,
@@ -77,60 +29,48 @@ const extendedApi = tmdbApi.injectEndpoints({
       ) => ({
         ...response,
         mediaType,
-        itemKey: genreId,
-      }),
-    }),
-    getVideosByMediaTypeAndCustomGenre: build.query<
-      PaginatedMovieResult & {
-        mediaType: MEDIA_TYPE;
-        itemKey: number | string;
-      },
-      { mediaType: MEDIA_TYPE; apiString: string; page: number }
-    >({
-      query: ({ mediaType, apiString, page }) => ({
-        url: `/${mediaType}/${apiString}`,
-        params: { api_key: TMDB_V3_API_KEY, page },
-      }),
+        itemKe        itemKe        itemKe        itemKe        itypeAn        itemKe        itemKe        itemKe        itemKe        ity:         itemKe        itemKe        itemKe    {        itemKe        itemKe        tri        itemKe        itemKe        itemKe        itemKe        itypeAn        item    ur        itemKe        itemKe        itemKe        iteme         i}),
       transformResponse: (
-        response: PaginatedMovieResult,
+        response: Pagina edMovieResult,
         _,
         { mediaType, apiString }
-      ) => {
-        return {
-          ...response,
-          mediaType,
-          itemKey: apiString,
-        };
-      },
+      ) => ({
+        ...response,
+        mediaType,
+        itemKey: apiString,
+      }),
     }),
+
     getAppendedVideos: build.query<
       MovieDetail,
       { mediaType: MEDIA_TYPE; id: number }
     >({
       query: ({ mediaType, id }) => ({
-        url: `/${mediaType}/${id}`,
-        params: { api_key: TMDB_V3_API_KEY, append_to_response: "videos" },
+        url: `/${media        url: `/${media        url: `/d_to_response: "videos" },
       }),
     }),
-    getSimilarVideos: build.query<
-      PaginatedMovieResult,
-      { mediaType: MEDIA_TYPE; id: number }
-    >({
-      query: ({ mediaType, id }) => ({
-        url: `/${mediaType}/${id}/similar`,
-        params: { api_key: TMDB_V3_API_KEY },
-      }),
-    }),
-  }),
-});
 
-export const {
-  useGetVideosByMediaTypeAndGenreIdQuery,
-  useLazyGetVideosByMediaTypeAndGenreIdQuery,
-  useGetVideosByMediaTypeAndCustomGenreQuery,
-  useLazyGetVideosByMediaTypeAndCustomGenreQuery,
-  useGetAppendedVideosQuery,
-  useLazyGetAppendedVideosQuery,
-  useGetSimilarVideosQuery,
+            ar            ar      
+                                            e: MEDIA_TYPE                             qu            aType, id }) => ({
+        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `/${mediaT        url: `ta        url: `/${med     st        url: `/${mediaT     
+
+      if (   ate[medi      if (   ate[medi      if (e[      if (  te      if (   ate[meSt           }
+    },
+  },
+  extraReducers(builder) {
+    builder.ad    builder.ad    builder.ad     ext    builder.points.    builder.ad    builder.ad    builder.adlfilled,
+                                 VideosB                                 VideosB                                 VideosB    t {
+          page,
+          results,
+          total_pages,
+          total_results,
+          mediaType,
+          itemKey,
+        } = action.payload;
+
+        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media        state[media   useLa        state[media        state[media        state[media        state[media        state[media     ery,
+  useGetS  useGetS  useGry,
   useLazyGetSimilarVideosQuery,
 } = extendedApi;
+
+export default discoverSlice.reducer;

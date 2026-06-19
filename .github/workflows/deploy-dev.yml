@@ -44,21 +44,21 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/arm64 \
-            -f app/Dockerfile \
+            -f services/api/Dockerfile \
             -t $ACR_LOGIN_SERVER/$API_IMAGE_NAME:$IMAGE_TAG \
             -t $ACR_LOGIN_SERVER/$API_IMAGE_NAME:dev \
             --push \
-            app
+            services/api
 
       - name: Build and push Web image
         run: |
           docker buildx build \
             --platform linux/arm64 \
-            -f app/Dockerfile.frontend \
+            -f apps/web/Dockerfile \
             -t $ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:$IMAGE_TAG \
             -t $ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:dev \
             --push \
-            app
+            apps/web
 
       - name: Scan API image with Trivy
         uses: aquasecurity/trivy-action@0.35.0
