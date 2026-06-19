@@ -3,17 +3,14 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package*.json ./
 
-RUN npm install
+RUN npm ci
 
 COPY . .
 
-ARG VITE_APP_TMDB_V3_API_KEY
-ARG VITE_APP_API_ENDPOINT_URL=https://api.themoviedb.org/3
-
-ENV VITE_APP_TMDB_V3_API_KEY=${VITE_APP_TMDB_V3_API_KEY}
-ENV VITE_APP_API_ENDPOINT_URL=${VITE_APP_API_ENDPOINT_URL}
+ARG VITE_API_BASE_URL=/api
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
 RUN npx vite build
 
