@@ -70,3 +70,27 @@ variable "alert_email" {
   type        = string
   default     = ""
 }
+
+variable "log_analytics_workspace_name" {
+  description = "Name of the Log Analytics Workspace for the dev environment."
+  type        = string
+  default     = "law-netflix-dev-uksouth"
+}
+
+variable "monthly_budget_amount" {
+  description = "Monthly Azure budget amount for the dev environment."
+  type        = number
+  default     = 100
+}
+
+variable "budget_start_date" {
+  description = "Start date for the Azure budget."
+  type        = string
+  default     = "2026-06-01T00:00:00Z"
+}
+
+variable "budget_end_date" {
+  description = "End date for the Azure budget."
+  type        = string
+  default     = "2036-06-01T00:00:00Z"
+}

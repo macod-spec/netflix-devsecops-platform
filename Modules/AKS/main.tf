@@ -23,7 +23,7 @@ resource "azurerm_kubernetes_cluster" "this" {
   default_node_pool {
     name           = "system"
     node_count     = var.system_node_count
-    vm_size        = "standard_d2ps_v6"
+    vm_size        = var.system_node_vm_size
     vnet_subnet_id = var.system_subnet_id
 
     upgrade_settings {
