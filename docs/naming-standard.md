@@ -39,7 +39,7 @@ Each environment will use:
 - Dev ACR: acrnetflixdevYOURNAME
 - Prod ACR: acrnetflixprodYOURNAME
 
-## Key Vault
+## Future / Reserved Key Vault Naming
 
 - Dev Key Vault: kv-netflix-dev-YOURNAME
 - Prod Key Vault: kv-netflix-prod-YOURNAME
