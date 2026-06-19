@@ -22,6 +22,15 @@ spec:
           ports:
             - containerPort: {{ .Values.web.containerPort }}
 
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+
+          resources:
+            {{- toYaml .Values.web.resources | nindent 12 }}
+
           readinessProbe:
             httpGet:
               path: {{ .Values.web.probes.path }}
