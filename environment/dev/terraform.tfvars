@@ -13,3 +13,9 @@ aks_name                = "aks-netflix-dev-uksouth"
 aks_dns_prefix          = "aks-netflix-dev-mac"
 aks_system_node_count   = 1
 aks_system_node_vm_size = "standard_d2ps_v6"
+
+key_vault_name                  = "kv-netflix-dev-mac01"
+fastapi_identity_name           = "id-netflix-api-dev-uksouth"
+tmdb_secret_name                = "tmdb-api-key"
+kubernetes_namespace            = "netflix-dev"
+kubernetes_service_account_name = "netflix-api"

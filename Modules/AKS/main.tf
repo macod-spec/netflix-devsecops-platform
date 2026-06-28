@@ -1,24 +1,25 @@
 resource "azurerm_kubernetes_cluster" "this" {
-  #checkov:skip=CKV_AZURE_170:Paid AKS SLA is not used in this cost-controlled dev portfolio environment.
-  #checkov:skip=CKV_AZURE_172:Secrets Store CSI Driver autorotation is a future Key Vault integration enhancement.
-  #checkov:skip=CKV_AZURE_141:Local admin account hardening is planned with full Entra ID/RBAC integration in a later phase.
-  #checkov:skip=CKV_AZURE_115:Private AKS cluster is a future production architecture enhancement; public API access is used for dev manageability.
-  #checkov:skip=CKV_AZURE_117:Customer-managed disk encryption set is a production hardening item; current dev environment uses platform-managed encryption.
-  #checkov:skip=CKV_AZURE_7:AKS network policy requires additional cluster networking design; planned for a later hardening phase.
-  #checkov:skip=CKV_AZURE_232:Dedicated user node pools are a future scalability enhancement; this dev cluster currently uses a single small node pool.
-  #checkov:skip=CKV_AZURE_226:Ephemeral OS disks depend on node SKU and sizing; accepted for current low-cost ARM dev node.
-  #checkov:skip=CKV_AZURE_116:Azure Policy add-on is a future governance enhancement; current governance uses Terraform and Checkov.
-  #checkov:skip=CKV_AZURE_6:API server authorized IP ranges are not enabled due to changing admin/GitHub access paths in the dev setup.
-  #checkov:skip=CKV_AZURE_171:Automatic upgrade channel is not enabled to avoid unexpected version drift during portfolio build.
-  #checkov:skip=CKV_AZURE_168:Current max pods setting is accepted for a small single-node dev cluster.
-  #checkov:skip=CKV_AZURE_227:Host-based encryption for temporary disks/caches is a future production hardening item.
+  # checkov:skip=CKV_AZURE_170:Paid AKS SLA is not used in this cost-controlled dev portfolio environment.
+  # checkov:skip=CKV_AZURE_141:Local admin account hardening is planned with full Entra ID/RBAC integration in a later phase.
+  # checkov:skip=CKV_AZURE_115:Private AKS cluster is a future production architecture enhancement; public API access is used for dev manageability.
+  # checkov:skip=CKV_AZURE_117:Customer-managed disk encryption set is a production hardening item; current dev environment uses platform-managed encryption.
+  # checkov:skip=CKV_AZURE_7:AKS network policy requires additional cluster networking design; planned for a later hardening phase.
+  # checkov:skip=CKV_AZURE_232:Dedicated user node pools are a future scalability enhancement; this dev cluster currently uses a single small node pool.
+  # checkov:skip=CKV_AZURE_226:Ephemeral OS disks depend on node SKU and sizing; accepted for current low-cost ARM dev node.
+  # checkov:skip=CKV_AZURE_116:Azure Policy add-on is a future governance enhancement; current governance uses Terraform and Checkov.
+  # checkov:skip=CKV_AZURE_6:API server authorized IP ranges are not enabled due to changing admin/GitHub access paths in the dev setup.
+  # checkov:skip=CKV_AZURE_171:Automatic upgrade channel is not enabled to avoid unexpected version drift during portfolio build.
+  # checkov:skip=CKV_AZURE_168:Current max pods setting is accepted for a small single-node dev cluster.
+  # checkov:skip=CKV_AZURE_227:Host-based encryption for temporary disks/caches is a future production hardening item.
 
   name                = var.aks_name
   location            = var.location
   resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
+  kubernetes_version  = var.kubernetes_version
 
-  kubernetes_version = var.kubernetes_version
+  oidc_issuer_enabled       = var.oidc_issuer_enabled
+  workload_identity_enabled = var.workload_identity_enabled
 
   default_node_pool {
     name           = "system"
@@ -50,6 +51,15 @@ resource "azurerm_kubernetes_cluster" "this" {
     content {
       log_analytics_workspace_id      = var.log_analytics_workspace_id
       msi_auth_for_monitoring_enabled = true
+    }
+  }
+
+  dynamic "key_vault_secrets_provider" {
+    for_each = var.key_vault_secrets_provider_enabled ? [1] : []
+
+    content {
+      secret_rotation_enabled  = var.key_vault_secret_rotation_enabled
+      secret_rotation_interval = var.key_vault_secret_rotation_interval
     }
   }
 

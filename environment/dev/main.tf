@@ -58,19 +58,38 @@ module "acr" {
 module "aks" {
   source = "../../Modules/AKS"
 
-  aks_name            = var.aks_name
-  dns_prefix          = var.aks_dns_prefix
-  location            = var.location
-  resource_group_name = module.resource_group.name
-  system_subnet_id    = module.networking.system_subnet_id
-  acr_id              = module.acr.id
-
-  system_node_count   = var.aks_system_node_count
-  system_node_vm_size = var.aks_system_node_vm_size
+  aks_name                           = var.aks_name
+  dns_prefix                         = var.aks_dns_prefix
+  location                           = var.location
+  resource_group_name                = module.resource_group.name
+  system_subnet_id                   = module.networking.system_subnet_id
+  acr_id                             = module.acr.id
+  oidc_issuer_enabled                = true
+  workload_identity_enabled          = true
+  key_vault_secrets_provider_enabled = true
+  key_vault_secret_rotation_enabled  = true
+  key_vault_secret_rotation_interval = "2m"
+  system_node_count                  = var.aks_system_node_count
+  system_node_vm_size                = var.aks_system_node_vm_size
 
   tags = local.common_tags
 
   log_analytics_workspace_id = module.monitoring.log_analytics_workspace_id
+}
+
+module "key_vault" {
+  source = "../../Modules/key-vault"
+
+  key_vault_name                  = var.key_vault_name
+  location                        = var.location
+  resource_group_name             = module.resource_group.name
+  fastapi_identity_name           = var.fastapi_identity_name
+  aks_oidc_issuer_url             = module.aks.oidc_issuer_url
+  kubernetes_namespace            = var.kubernetes_namespace
+  kubernetes_service_account_name = var.kubernetes_service_account_name
+  tmdb_secret_name                = var.tmdb_secret_name
+
+  tags = local.common_tags
 }
 
 module "monitoring" {

@@ -94,3 +94,30 @@ variable "budget_end_date" {
   type        = string
   default     = "2036-06-01T00:00:00Z"
 }
+variable "key_vault_name" {
+  description = "Name of the dev Azure Key Vault."
+  type        = string
+}
+
+variable "fastapi_identity_name" {
+  description = "Name of the user-assigned managed identity used by the FastAPI workload."
+  type        = string
+}
+
+variable "tmdb_secret_name" {
+  description = "Name of the TMDB API key secret expected in Azure Key Vault."
+  type        = string
+  default     = "tmdb-api-key"
+}
+
+variable "kubernetes_namespace" {
+  description = "Kubernetes namespace containing the FastAPI workload."
+  type        = string
+  default     = "netflix-dev"
+}
+
+variable "kubernetes_service_account_name" {
+  description = "Kubernetes service account used by the FastAPI workload."
+  type        = string
+  default     = "netflix-api"
+}

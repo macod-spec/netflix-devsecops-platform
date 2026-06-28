@@ -41,9 +41,39 @@ variable "system_node_count" {
 }
 
 variable "system_node_vm_size" {
-  description = "VM size for the system node pool."
+  description = "VM size for the AKS system node pool."
   type        = string
   default     = "Standard_B2s"
+}
+
+variable "oidc_issuer_enabled" {
+  description = "Whether the AKS OIDC issuer is enabled for workload identity."
+  type        = bool
+  default     = true
+}
+
+variable "workload_identity_enabled" {
+  description = "Whether AKS workload identity is enabled."
+  type        = bool
+  default     = true
+}
+
+variable "key_vault_secrets_provider_enabled" {
+  description = "Whether the AKS Key Vault Secrets Store CSI Driver add-on is enabled."
+  type        = bool
+  default     = true
+}
+
+variable "key_vault_secret_rotation_enabled" {
+  description = "Whether Key Vault CSI secret rotation is enabled."
+  type        = bool
+  default     = true
+}
+
+variable "key_vault_secret_rotation_interval" {
+  description = "Secret rotation interval for the Key Vault Secrets Store CSI Driver."
+  type        = string
+  default     = "2m"
 }
 
 variable "tags" {
@@ -51,6 +81,7 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
 variable "log_analytics_workspace_id" {
   description = "Optional Log Analytics Workspace ID used by AKS Container Insights."
   type        = string
