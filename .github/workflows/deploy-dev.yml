@@ -7,11 +7,12 @@ on:
   workflow_dispatch:
 
 env:
-  ACR_LOGIN_SERVER: acrnetflixdevmac01.azurecr.io
-  API_IMAGE_NAME: netflix-api
-  WEB_IMAGE_NAME: netflix-web
-  NAMESPACE: netflix-dev
-  HELM_RELEASE_NAME: netflix-platform
+  ACR_LOGIN_SERVER: ${{ vars.ACR_LOGIN_SERVER }}
+  ACR_NAME: ${{ vars.ACR_NAME }}
+  API_IMAGE_NAME: ${{ vars.API_IMAGE_NAME }}
+  WEB_IMAGE_NAME: ${{ vars.WEB_IMAGE_NAME }}
+  NAMESPACE: ${{ vars.K8S_NAMESPACE }}
+  HELM_RELEASE_NAME: ${{ vars.HELM_RELEASE_NAME }}
   HELM_CHART_PATH: charts/netflix-platform
   HELM_VALUES_FILE: charts/netflix-platform/values-dev.yaml
 
@@ -26,8 +27,28 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Validate required repository variables
+        shell: bash
+        run: |
+          required_variables=(
+            ACR_LOGIN_SERVER
+            ACR_NAME
+            API_IMAGE_NAME
+            WEB_IMAGE_NAME
+            NAMESPACE
+            HELM_RELEASE_NAME
+          )
+
+          for variable_name in "${required_variables[@]}"; do
+            if [[ -z "${!variable_name}" ]]; then
+              echo "::error::$variable_name is not configured in GitHub Actions repository variables."
+              exit 1
+            fi
+          done
+
       - name: Set image tag
-        run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+        shell: bash
+        run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> "$GITHUB_ENV"
 
       - name: Azure login
         uses: azure/login@v2
@@ -35,28 +56,31 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Login to Azure Container Registry
-        run: az acr login --name ${{ secrets.ACR_NAME }}
+        shell: bash
+        run: az acr login --name "$ACR_NAME"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push API image
+        shell: bash
         run: |
           docker buildx build \
             --platform linux/arm64 \
             -f services/api/Dockerfile \
-            -t $ACR_LOGIN_SERVER/$API_IMAGE_NAME:$IMAGE_TAG \
-            -t $ACR_LOGIN_SERVER/$API_IMAGE_NAME:dev \
+            -t "$ACR_LOGIN_SERVER/$API_IMAGE_NAME:$IMAGE_TAG" \
+            -t "$ACR_LOGIN_SERVER/$API_IMAGE_NAME:dev" \
             --push \
             services/api
 
       - name: Build and push Web image
+        shell: bash
         run: |
           docker buildx build \
             --platform linux/arm64 \
             -f apps/web/Dockerfile \
-            -t $ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:$IMAGE_TAG \
-            -t $ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:dev \
+            -t "$ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:$IMAGE_TAG" \
+            -t "$ACR_LOGIN_SERVER/$WEB_IMAGE_NAME:dev" \
             --push \
             apps/web
 
@@ -71,7 +95,7 @@ jobs:
           severity: CRITICAL,HIGH
           vuln-type: os,library
           ignore-unfixed: true
-          exit-code: '1'
+          exit-code: "1"
 
       - name: Scan Web image with Trivy
         uses: aquasecurity/trivy-action@0.35.0
@@ -84,30 +108,34 @@ jobs:
           severity: CRITICAL,HIGH
           vuln-type: os,library
           ignore-unfixed: true
-          exit-code: '1'
+          exit-code: "1"
 
       - name: Lint Helm chart
+        shell: bash
         run: |
-          helm lint $HELM_CHART_PATH -f $HELM_VALUES_FILE
+          helm lint "$HELM_CHART_PATH" -f "$HELM_VALUES_FILE"
 
       - name: Update Helm values image tag
+        shell: bash
         run: |
-          sed -i "s/tag: .*/tag: \"$IMAGE_TAG\"/" $HELM_VALUES_FILE
+          sed -i "s/tag: .*/tag: \"$IMAGE_TAG\"/" "$HELM_VALUES_FILE"
 
       - name: Commit updated image tag
+        shell: bash
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-          if git diff --quiet $HELM_VALUES_FILE; then
+          if git diff --quiet "$HELM_VALUES_FILE"; then
             echo "No image tag change to commit."
           else
-            git add $HELM_VALUES_FILE
+            git add "$HELM_VALUES_FILE"
             git commit -m "Update dev image tag to $IMAGE_TAG [skip ci]"
             git push
           fi
 
       - name: GitOps handoff complete
+        shell: bash
         run: |
           echo "Image tag $IMAGE_TAG pushed to Git."
           echo "Argo CD will sync the Helm chart from Git into AKS."
