@@ -13,6 +13,8 @@ env:
   WEB_IMAGE_NAME: ${{ vars.WEB_IMAGE_NAME }}
   NAMESPACE: ${{ vars.K8S_NAMESPACE }}
   HELM_RELEASE_NAME: ${{ vars.HELM_RELEASE_NAME }}
+  SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
+  SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
   HELM_CHART_PATH: charts/netflix-platform
   HELM_VALUES_FILE: charts/netflix-platform/values-dev.yaml
 
@@ -37,6 +39,8 @@ jobs:
             WEB_IMAGE_NAME
             NAMESPACE
             HELM_RELEASE_NAME
+            SONAR_ORGANIZATION
+            SONAR_PROJECT_KEY
           )
 
           for variable_name in "${required_variables[@]}"; do
@@ -45,6 +49,16 @@ jobs:
               exit 1
             fi
           done
+
+      - name: Scan source code with SonarCloud
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ env.SONAR_ORGANIZATION }}
+            -Dsonar.qualitygate.wait=true
 
       - name: Set image tag
         shell: bash
