@@ -10,12 +10,46 @@ api:
   replicas: 1
   imageName: netflix-api
   containerPort: 8080
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+  env:
+    tmdbBaseUrl: "https://api.themoviedb.org/3"
+
+  serviceAccount:
+    create: true
+    name: netflix-api
+    annotations:
+      azure.workload.identity/client-id: ""
+
+  keyVault:
+    enabled: false
+    secretProviderClassName: netflix-api-keyvault
+    name: ""
+    tenantId: ""
+    clientId: ""
+    tmdbSecretName: tmdb-api-key
+    mountPath: /mnt/secrets-store
+    tmdbApiKeyFile: /mnt/secrets-store/tmdb-api-key
+
+  secret:
+    name: netflix-tmdb
+    apiKeyName: TMDB_API_KEY
+
   service:
     type: ClusterIP
     port: 8080
     targetPort: 8080
+
   probes:
-    path: /health
+    readinessPath: /ready
+    livenessPath: /health
     readinessInitialDelaySeconds: 15
     livenessInitialDelaySeconds: 30
 
@@ -24,10 +58,20 @@ web:
   replicas: 1
   imageName: netflix-web
   containerPort: 8080
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
   service:
     type: LoadBalancer
     port: 80
     targetPort: 8080
+
   probes:
     path: /health
     readinessInitialDelaySeconds: 10

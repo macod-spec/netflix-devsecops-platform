@@ -2,7 +2,7 @@ namespace: netflix-dev
 
 image:
   registry: acrnetflixdevmac01.azurecr.io
-  tag: "989b01e"
+  tag: dev
   pullPolicy: Always
 
 api:
@@ -19,9 +19,24 @@ api:
       cpu: "500m"
       memory: "512Mi"
 
-
   env:
     tmdbBaseUrl: "https://api.themoviedb.org/3"
+
+  serviceAccount:
+    create: true
+    name: netflix-api
+    annotations:
+      azure.workload.identity/client-id: "TODO_FASTAPI_IDENTITY_CLIENT_ID_FROM_TERRAFORM_OUTPUT"
+
+  keyVault:
+    enabled: true
+    secretProviderClassName: netflix-api-keyvault
+    name: kv-netflix-dev-mac01
+    tenantId: "TODO_TENANT_ID_FROM_TERRAFORM_OUTPUT"
+    clientId: "TODO_FASTAPI_IDENTITY_CLIENT_ID_FROM_TERRAFORM_OUTPUT"
+    tmdbSecretName: tmdb-api-key
+    mountPath: /mnt/secrets-store
+    tmdbApiKeyFile: /mnt/secrets-store/tmdb-api-key
 
   secret:
     name: netflix-tmdb
@@ -51,7 +66,7 @@ web:
     limits:
       cpu: "500m"
       memory: "512Mi"
-      
+
   service:
     type: LoadBalancer
     port: 80
